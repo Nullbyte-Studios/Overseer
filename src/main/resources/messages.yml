@@ -1,0 +1,12 @@
+feature-not-available: "<red>This feature is not available!"
+
+staff-chat:
+  enabled: "<green>Enabled <light_purple>staff</light_purple> chat"
+  disabled: "<green>Disabled <light_purple>staff</light_purple> chat"
+  muted: "<green>Muted <light_purple>staff</light_purple> chat"
+  unmuted: "<green>Unmuted <light_purple>staff</light_purple> chat"
+admin-chat:
+  enabled: "<green>Enabled <dark_red>admin</dark_red> chat"
+  disabled: "<green>Disabled <dark_red>admin</dark_red> chat"
+  muted: "<green>Muted <dark_red>admin</dark_red> chat"
+  unmuted: "<green>Unmuted <dark_red>admin</dark_red> chat"

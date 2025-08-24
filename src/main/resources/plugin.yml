@@ -1,0 +1,4 @@
+name: Overseer
+version: '1.0.0'
+main: com.nullbyte.overseer.Overseer
+api-version: '1.21'

@@ -1,0 +1,42 @@
+prefix: "<dark_red>Overseer <red>| <reset>"
+
+features:
+  # Required permission to enter & view staff chat: overseer.staff
+  # Commands to enter staff chat: /staffchat, /sc
+  staff-chat:
+    enabled: true
+    prefix: "<dark_gray>[<dark_purple><b>STAFF CHAT</b><dark_gray>] <reset>"
+    # Start a message with this, and the message will automatically go into staff chat.
+    handle:
+      enabled: true
+      text: "@"
+    message-format: "<white>{player}<white>: <dark_purple>{message}"
+    # Allow muting the staff chat using the command /mutestaffchat
+    mute: false
+    # Make a sound when a message is sent in staff chat
+    sound:
+      enabled: true
+      # Go to https://minecraftsounds.com/, there click the
+      # clipboard button to copy the name, and paste it here.
+      sound-name: "minecraft:entity.experience_orb.pickup"
+  # Required permission to enter & view admin chat: overseer.admin
+  # Commands to enter admin chat: /adminchat, /ac
+  admin-chat:
+    enabled: true
+    prefix: "<dark_gray>[<red><b>ADMIN CHAT</b><dark_gray>] <reset>"
+    # Start a message with this, and the message will automatically go into admin chat.
+    handle:
+      enabled: true
+      text: "!!"
+    message-format: "<white>{player}<white>: <red>{message}"
+    # Allow muting the admin chat using the command /muteadminchat
+    mute: false
+    # Make a sound when a message is sent in admin chat
+    sound:
+      enabled: true
+      # Go to https://minecraftsounds.com/, there click the
+      # clipboard button to copy the name, and paste it here.
+      sound-name: "minecraft:entity.experience_orb.pickup"
+
+# Do not change this!!
+config-version: 1
