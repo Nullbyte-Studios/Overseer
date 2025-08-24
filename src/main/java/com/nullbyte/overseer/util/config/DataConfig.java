@@ -2,6 +2,8 @@ package com.nullbyte.overseer.util.config;
 
 import com.nullbyte.overseer.Overseer;
 import com.nullbyte.overseer.util.Util;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -15,8 +17,8 @@ public class DataConfig {
     private static final String name = "data.yml";
 
     private static final YamlConfiguration document;
-    private static final Set<UUID> staffMuted = new HashSet<>();
-    private static final Set<UUID> adminMuted = new HashSet<>();
+    @Getter @Setter private static Set<UUID> staffMuted = new HashSet<>();
+    @Getter @Setter private static Set<UUID> adminMuted = new HashSet<>();
     private static final Set<UUID> staffChatEnabled = new HashSet<>();
     private static final Set<UUID> adminChatEnabled = new HashSet<>();
 
@@ -67,9 +69,8 @@ public class DataConfig {
     }
 
     public static boolean isStaffMuted(UUID uuid) {
-        return Config.isAdminChatMuteEnabled() && staffMuted.contains(uuid);
+        return Config.isStaffChatMuteEnabled() && staffMuted.contains(uuid);
     }
-
     public static boolean isAdminMuted(UUID uuid) {
         return Config.isAdminChatMuteEnabled() && adminMuted.contains(uuid);
     }

@@ -1,12 +1,8 @@
 package com.nullbyte.overseer.util.config;
 
-import com.nullbyte.overseer.Overseer;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
-
-import java.io.File;
 
 @UtilityClass
 public class Config {
@@ -30,7 +26,9 @@ public class Config {
     @Getter private boolean adminChatHandleEnabled;
     @Getter private String adminChatHandle;
 
-    public void load() {
+    public static void load() {
+        YamlConfiguration document = ConfigUtils.copy(name);
+
         prefix = document.getString("prefix");
 
         staffChatEnabled = document.getBoolean("features.staff-chat.enabled");
@@ -50,25 +48,5 @@ public class Config {
         adminChatSound = document.getString("features.admin-chat.sound.sound-name");
         adminChatHandleEnabled = document.getBoolean("features.admin-chat.handle.enabled");
         adminChatHandle = document.getString("features.admin-chat.handle.text");
-    }
-
-    private static final File configFile;
-    private static YamlConfiguration document;
-    static {
-        configFile = new File(Overseer.get().getDataFolder(), name);
-        if (!configFile.exists()) {
-            if(!configFile.getParentFile().mkdirs()) {
-                Overseer.get().getLogger().severe("Could not create data folder! Disabling...");
-                Bukkit.getPluginManager().disablePlugin(Overseer.get());
-            }
-            Overseer.get().saveResource(name, false);
-        }
-        document = YamlConfiguration.loadConfiguration(configFile);
-        load();
-    }
-
-    public void reload() {
-        document = YamlConfiguration.loadConfiguration(configFile);
-        load();
     }
 }

@@ -5,8 +5,16 @@ staff-chat:
   disabled: "<green>Disabled <light_purple>staff</light_purple> chat"
   muted: "<green>Muted <light_purple>staff</light_purple> chat"
   unmuted: "<green>Unmuted <light_purple>staff</light_purple> chat"
+  # reminds players they're in staff chat when they log in
+  reminder: "<green>You are in <light_purple>staff</light_purple> chat"
+  # reminds players they muted staff chat when they log in
+  muted-reminder: "<red>You have muted <light_purple>staff</light_purple> chat"
 admin-chat:
   enabled: "<green>Enabled <dark_red>admin</dark_red> chat"
   disabled: "<green>Disabled <dark_red>admin</dark_red> chat"
   muted: "<green>Muted <dark_red>admin</dark_red> chat"
   unmuted: "<green>Unmuted <dark_red>admin</dark_red> chat"
+  # reminds players they're in admin chat when they log in
+  reminder: "<green>You are in <dark_red>admin</dark_red> chat"
+  # reminds players they muted admin chat when they log in
+  muted-reminder: "<red>You have muted <dark_red>admin</dark_red> chat"

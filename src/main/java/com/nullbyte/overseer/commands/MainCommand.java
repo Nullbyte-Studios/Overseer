@@ -24,9 +24,9 @@ public class MainCommand extends BaseCommand {
     @CommandAlias("ovreload")
     @Description("Reload the plugin.")
     @CommandPermission("overseer.reload")
-    public void onReload(CommandSender sender) throws IOException, InvalidConfigurationException {
-        Config.reload();
-        MessagesConfig.reload();
+    public void onReload(CommandSender sender) {
+        Config.load();
+        MessagesConfig.load();
         sender.sendMessage(MessageUtil.transformPrefix("&aReloaded configuration."));
     }
 }

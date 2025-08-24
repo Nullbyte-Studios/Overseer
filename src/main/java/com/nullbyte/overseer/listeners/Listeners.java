@@ -8,7 +8,8 @@ import java.util.List;
 public class Listeners {
     public static void register() {
         List.of(
-                new ChatEvent()
+                new ChatEvent(),
+                new JoinListener()
         ).forEach(e -> Bukkit.getServer().getPluginManager().registerEvents(e, Overseer.get()));
     }
 }

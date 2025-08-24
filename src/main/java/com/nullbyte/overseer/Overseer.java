@@ -2,7 +2,9 @@ package com.nullbyte.overseer;
 
 import com.nullbyte.overseer.commands.Commands;
 import com.nullbyte.overseer.listeners.Listeners;
+import com.nullbyte.overseer.util.config.Config;
 import com.nullbyte.overseer.util.config.DataConfig;
+import com.nullbyte.overseer.util.config.MessagesConfig;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -19,9 +21,8 @@ public final class Overseer extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        DataConfig.load();
-        Commands.register();
-        Listeners.register();
+        loadConfig();
+        loadModules();
         info("Overseer has started successfully.");
     }
 
@@ -33,5 +34,14 @@ public final class Overseer extends JavaPlugin {
             throw new RuntimeException(e);
         }
         info("Overseer has been disabled.");
+    }
+    private void loadModules() {
+        Commands.register();
+        Listeners.register();
+    }
+    private void loadConfig() {
+        DataConfig.load();
+        MessagesConfig.load();
+        Config.load();
     }
 }

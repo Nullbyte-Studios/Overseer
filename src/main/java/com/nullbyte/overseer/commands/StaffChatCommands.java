@@ -14,6 +14,8 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.util.Set;
+
 public class StaffChatCommands extends BaseCommand {
     @CommandAlias("staffchat|sc")
     @CommandPermission("overseer.staff")
@@ -65,6 +67,7 @@ public class StaffChatCommands extends BaseCommand {
     }
     public static void broadcastStaffMessage(Player player, Component message) {
         String rawPrefix = Config.getStaffChatPrefix();
+        if(!DataConfig.getStaffMuted().isEmpty() && !Config.isStaffChatMuteEnabled()) DataConfig.setStaffMuted(Set.of());
         for (Player staff : Bukkit.getOnlinePlayers()) {
             if (!staff.hasPermission("overseer.staff") || DataConfig.isStaffMuted(staff.getUniqueId())) continue;
             Component msg = MessageUtil.transformPrefix(Config.getStaffChatMessageFormat(), rawPrefix)
@@ -78,6 +81,7 @@ public class StaffChatCommands extends BaseCommand {
     }
     public static void broadcastAdminMessage(Player player, Component message) {
         String rawPrefix = Config.getAdminChatPrefix();
+        if(!DataConfig.getAdminMuted().isEmpty() && !Config.isAdminChatMuteEnabled()) DataConfig.setAdminMuted(Set.of());
         for (Player admin : Bukkit.getOnlinePlayers()) {
             if (!admin.hasPermission("overseer.admin") || DataConfig.isAdminMuted(admin.getUniqueId())) continue;
             Component msg = MessageUtil.transformPrefix(Config.getAdminChatMessageFormat(), rawPrefix)
