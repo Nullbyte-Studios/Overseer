@@ -3,6 +3,7 @@ package com.nullbyte.overseer.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandPermission;
+import co.aikar.commands.annotation.Default;
 import com.nullbyte.overseer.util.MessageUtil;
 import com.nullbyte.overseer.util.config.Config;
 import com.nullbyte.overseer.util.config.DataConfig;
@@ -16,7 +17,7 @@ import org.bukkit.entity.Player;
 public class StaffChatCommands extends BaseCommand {
     @CommandAlias("staffchat|sc")
     @CommandPermission("overseer.staff")
-    public void onStaffChat(Player player, String message) {
+    public void onStaffChat(Player player, @Default("") String message) {
         if (!Config.isStaffChatEnabled()) {
             player.sendMessage(MessageUtil.transformPrefix(MessagesConfig.getFeatureNotAvailable()));
             return;
@@ -31,7 +32,7 @@ public class StaffChatCommands extends BaseCommand {
     }
     @CommandAlias("adminchat|ac")
     @CommandPermission("overseer.admin")
-    public void onAdminChat(Player player, String message) {
+    public void onAdminChat(Player player, @Default("") String message) {
         String rawPrefix = Config.getAdminChatPrefix();
         if (message.isEmpty()) {
             boolean enabled = DataConfig.toggleAdminChat(player.getUniqueId());

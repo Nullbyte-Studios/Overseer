@@ -47,10 +47,10 @@ public class DataConfig {
         }
     }
     public static void save() throws IOException {
-        document.set("staffMuted", staffMuted.stream().toList());
-        document.set("adminMuted", adminMuted.stream().toList());
-        document.set("staffChatEnabled", staffChatEnabled.stream().toList());
-        document.set("adminChatEnabled", adminChatEnabled.stream().toList());
+        document.set("staffMuted", staffMuted.stream().map(UUID::toString).toList());
+        document.set("adminMuted", adminMuted.stream().map(UUID::toString).toList());
+        document.set("staffChatEnabled", staffChatEnabled.stream().map(UUID::toString).toList());
+        document.set("adminChatEnabled", adminChatEnabled.stream().map(UUID::toString).toList());
         document.save(configFile);
     }
     public static boolean toggleStaffMute(UUID uuid) {
