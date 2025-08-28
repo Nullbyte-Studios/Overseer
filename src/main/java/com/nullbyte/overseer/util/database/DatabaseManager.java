@@ -5,33 +5,36 @@ import com.nullbyte.overseer.util.config.Config;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.Getter;
-import org.jdbi.v3.core.Jdbi;
 
 import java.io.File;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DatabaseManager {
-    @Getter private Jdbi jdbi;
+    @Getter 
+    private static HikariDataSource dataSource;
+    
     public void setup() {
-        switch (Config.getDatabaseType()) {
-            case "mysql" -> {
-                setupMySQL();
-            }
-            case "sqlite" -> {
-                setupSQLite();
-            }
+        if ("mysql".equals(Config.getDatabaseType())) {
+            setupMySQL();
+        } else if ("sqlite".equals(Config.getDatabaseType())) {
+            setupSQLite();
         }
         Overseer.info("Connected to database.");
-        Overseer.runAsync((task) -> this.createTables());
+        Overseer.runAsync(task -> this.createTables());
     }
 
     private void createTables() {
-        jdbi.useHandle(handle -> {
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
+            
             if (Config.getDatabaseType().equalsIgnoreCase("mysql")) {
-                handle.execute(
+                statement.execute(
                         "CREATE TABLE IF NOT EXISTS players (" +
                                 "uuid VARCHAR(36) PRIMARY KEY)"
                 );
-                handle.execute(
+                statement.execute(
                         "CREATE TABLE IF NOT EXISTS notes (" +
                                 "id INT AUTO_INCREMENT PRIMARY KEY, " +
                                 "player_uuid VARCHAR(36) NOT NULL, " +
@@ -41,11 +44,11 @@ public class DatabaseManager {
                                 "FOREIGN KEY(player_uuid) REFERENCES players(uuid) ON DELETE CASCADE)"
                 );
             } else {
-                handle.execute(
+                statement.execute(
                         "CREATE TABLE IF NOT EXISTS players (" +
                                 "uuid TEXT PRIMARY KEY)"
                 );
-                handle.execute(
+                statement.execute(
                         "CREATE TABLE IF NOT EXISTS notes (" +
                                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                                 "player_uuid TEXT NOT NULL, " +
@@ -55,25 +58,44 @@ public class DatabaseManager {
                                 "FOREIGN KEY(player_uuid) REFERENCES players(uuid) ON DELETE CASCADE)"
                 );
             }
-        });
+        } catch (SQLException e) {
+            Overseer.get().getLogger().severe("Failed to create tables: " + e.getMessage());
+        }
     }
-    private static HikariDataSource hikari;
-    private void setupMySQL() {
+
+    private static void setupMySQL() {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl("jdbc:mysql://" + Config.getMysqlHost() + ":" + Config.getMysqlPort() + "/" + Config.getMysqlDatabase() + "?useSSL=false&serverTimezone=UTC");
         config.setUsername(Config.getMysqlUser());
         config.setPassword(Config.getMysqlPassword());
         config.setMaximumPoolSize(Config.getMysqlMaxPoolSize());
-        hikari = new HikariDataSource(config);
-        jdbi = Jdbi.create(hikari);
+        config.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dataSource = new HikariDataSource(config);
     }
-    private void setupSQLite() {
-        jdbi = Jdbi.create("jdbc:sqlite:" + new File(Overseer.get().getDataFolder(), Config.getSqliteFile()).getAbsolutePath());
-        jdbi.useHandle(h -> h.execute("PRAGMA foreign_keys = ON"));
+    
+    private static void setupSQLite() {
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl("jdbc:sqlite:" + new File(Overseer.get().getDataFolder(), Config.getSqliteFile()).getAbsolutePath());
+        config.setDriverClassName("org.sqlite.JDBC");
+        dataSource = new HikariDataSource(config);
+        
+        // Enable foreign keys for SQLite
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
+            statement.execute("PRAGMA foreign_keys = ON");
+        } catch (SQLException e) {
+            Overseer.get().getLogger().severe("Failed to enable foreign keys: " + e.getMessage());
+        }
+    }
+
+    public static Connection getConnection() throws SQLException {
+        return dataSource.getConnection();
     }
 
     public void shutdown() {
-        if (hikari != null && !hikari.isClosed()) hikari.close();
-        Overseer.info("Disconnected from database");
+        if (dataSource != null && !dataSource.isClosed()) {
+            dataSource.close();
+            Overseer.info("Disconnected from database");
+        }
     }
 }
