@@ -8,9 +8,7 @@ import com.nullbyte.overseer.util.MessageUtil;
 import com.nullbyte.overseer.util.config.MessagesConfig;
 import io.papermc.paper.plugin.configuration.PluginMeta;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.InvalidConfigurationException;
 
-import java.io.IOException;
 
 @CommandAlias("overseer|ov")
 @Description("The main command of Overseer")
