@@ -10,3 +10,6 @@ admin-chat:
   disabled: "<green>Disabled <dark_red>admin</dark_red> chat"
   muted: "<green>Muted <dark_red>admin</dark_red> chat"
   unmuted: "<green>Unmuted <dark_red>admin</dark_red> chat"
+vanish:
+  join-message: "&e%player% joined the game"
+  leave-message: "&e%player% left the game
