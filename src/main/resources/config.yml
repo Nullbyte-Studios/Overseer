@@ -1,5 +1,17 @@
 prefix: "<dark_red>Overseer <red>| <reset>"
 
+database:
+  type: "sqlite" # or "mysql"
+  mysql:
+    host: "localhost"
+    port: 3306
+    database: "overseer"
+    user: "root"
+    password: "123"
+    max-pool-size: 10
+  sqlite:
+    file: "data.db"
+
 features:
   # Required permission to enter & view staff chat: overseer.staff
   # Commands to enter staff chat: /staffchat, /sc
