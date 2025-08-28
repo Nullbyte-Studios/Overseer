@@ -22,7 +22,7 @@ public class DatabaseManager {
             setupSQLite();
         }
         Overseer.info("Connected to database.");
-        Overseer.runAsync(task -> this.createTables());
+        Overseer.runAsync(this::createTables);
     }
 
     private void createTables() {
