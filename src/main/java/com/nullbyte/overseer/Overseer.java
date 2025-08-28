@@ -11,7 +11,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.io.IOException;
-import java.util.function.Consumer;
 
 public final class Overseer extends JavaPlugin {
     private static Overseer instance;
@@ -23,8 +22,8 @@ public final class Overseer extends JavaPlugin {
         instance.getLogger().info(msg);
     }
 
-    public static void runAsync(Consumer<? super BukkitTask> task) {
-        instance.getServer().getScheduler().runTaskAsynchronously(instance, task);
+    public static BukkitTask runAsync(Runnable task) {
+        return instance.getServer().getScheduler().runTaskAsynchronously(instance, task);
     }
 
     @Override
