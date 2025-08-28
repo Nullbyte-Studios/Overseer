@@ -9,6 +9,16 @@ public class Config {
     private static final String name = "config.yml";
 
     @Getter private String prefix;
+
+    @Getter private String databaseType;
+    @Getter private String mysqlHost;
+    @Getter private String mysqlPort;
+    @Getter private String mysqlDatabase;
+    @Getter private String mysqlUser;
+    @Getter private String mysqlPassword;
+    @Getter private int mysqlMaxPoolSize;
+    @Getter private String sqliteFile;
+
     @Getter private boolean staffChatEnabled;
     @Getter private String staffChatPrefix;
     @Getter private String staffChatMessageFormat;
@@ -17,6 +27,7 @@ public class Config {
     @Getter private String staffChatSound;
     @Getter private boolean staffChatHandleEnabled;
     @Getter private String staffChatHandle;
+
     @Getter private boolean adminChatEnabled;
     @Getter private String adminChatPrefix;
     @Getter private String adminChatMessageFormat;
@@ -30,6 +41,15 @@ public class Config {
         YamlConfiguration document = ConfigUtils.copy(name);
 
         prefix = document.getString("prefix");
+
+        databaseType = document.getString("database.type");
+        mysqlHost = document.getString("database.mysql.host");
+        mysqlPort = document.getString("database.mysql.port");
+        mysqlDatabase = document.getString("database.mysql.database");
+        mysqlUser = document.getString("database.mysql.user");
+        mysqlPassword = document.getString("database.mysql.password");
+        mysqlMaxPoolSize = document.getInt("database.mysql.max-pool-size");
+        sqliteFile = document.getString("database.sqlite.file");
 
         staffChatEnabled = document.getBoolean("features.staff-chat.enabled");
         staffChatPrefix = document.getString("features.staff-chat.prefix");
